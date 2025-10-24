@@ -1,0 +1,13 @@
+firstName,lastName,email,company,position,salary
+Marek,Kowalski,marek.kowalski@example.com,InnoSoft,Janitor,105000
+
+Ewa,Nowak,ewa.nowak@example.com,DataWorks,PROGRAMISTA,88000
+Tomasz,Wiśniewski,tomasz.wisniewski@example.com,CloudCore,PROGRAMISTA,99000
+
+Katarzyna,Kaminska,katarzyna.kaminska@example.com,NextGen,Receptionist,87000
+Piotr,Malinowski,piotr.malinowski@example.com,AlphaTech,PROGRAMISTA,-76000
+Anna,Sobczak,anna.sobczak@example.com,GreenByte,MANAGER,92000
+
+Łukasz,Grabowski,lukasz.grabowski@example.com,FinTechLab,PROGRAMISTA,91000
+Magdalena,Urban,SoftSolutions,MANAGER,83000
+Jakub,Zieliński,jakub.zielinski@example.com,NetFusion,MANAGER,88000
