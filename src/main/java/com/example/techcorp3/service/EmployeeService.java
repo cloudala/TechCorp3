@@ -1,5 +1,7 @@
 package com.example.techcorp3.service;
 
+import com.example.techcorp3.exception.DuplicateEmailException;
+import com.example.techcorp3.exception.EmployeeNotFoundException;
 import com.example.techcorp3.model.CompanyStatistics;
 import com.example.techcorp3.model.Employee;
 import com.example.techcorp3.model.Position;
@@ -45,21 +47,37 @@ public class EmployeeService {
         return employees;
     }
 
+    public Employee findEmployeeByEmail(String email) {
+        return employees.stream()
+                .filter(employee -> employee.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with email " + email + " not found"));
+    }
+
+    public void removeEmployeeByEmail(String email) {
+        boolean removed = employees.removeIf(employee -> employee.getEmail().equalsIgnoreCase(email));
+        if (!removed) {
+            throw new EmployeeNotFoundException("Employee with email " + email + " not found");
+        }
+    }
+
     public void clearEmployees() {
         employees.clear();
     }
 
     public void addEmployee(Employee employee) {
         if (employee == null) {
-            throw new NullPointerException("Employee cannot be null");
+            throw new IllegalArgumentException("Employee cannot be null");
         }
 
-        if (employees.stream().anyMatch(emp -> emp.getEmail().equalsIgnoreCase(employee.getEmail()))){
-            System.out.println("Employee already exists");
-        } else {
-            employees.add(employee);
-            System.out.println("Employee added");
+        boolean exists = employees.stream()
+                .anyMatch(emp -> emp.getEmail().equalsIgnoreCase(employee.getEmail()));
+
+        if (exists) {
+            throw new DuplicateEmailException("Employee with email " + employee.getEmail() + " already exists");
         }
+
+        employees.add(employee);
     }
 
     public List<Employee> getEmployeesByCompany(String company) {
@@ -92,6 +110,14 @@ public class EmployeeService {
                 .orElse(0.0);
     }
 
+    public Double calculateAverageSalaryByCompany(String company) {
+        return employees.stream()
+                .filter(employee -> employee.getCompany().equalsIgnoreCase(company))
+                .mapToDouble(employee -> employee.getSalary())
+                .average()
+                .orElse(0.0);
+    }
+
     public Optional<Employee> getEmployeeWithHighestSalary() {
         return employees.stream()
                 .max(Comparator.comparing(employee -> employee.getSalary()));
@@ -112,11 +138,23 @@ public class EmployeeService {
                                     .mapToDouble(Employee::getSalary)
                                     .average()
                                     .orElse(0.0);
+                            double highestSalary = list.stream()
+                                    .mapToDouble(Employee::getSalary)
+                                    .max()
+                                    .orElse(0.0);
                             String highestPaid = list.stream()
                                     .max(Comparator.comparingDouble(Employee::getSalary))
                                     .map(emp -> emp.getName() + " " + emp.getSurname())
                                     .orElse("N/A");
-                            return new CompanyStatistics(count, avgSalary, highestPaid);
+                            return new CompanyStatistics(count, avgSalary, highestSalary, highestPaid);
                         })));
+    }
+
+    public Map<String, Long> getEmployeeCountByPosition() {
+        return employees.stream()
+                .collect(Collectors.groupingBy(
+                        employee -> employee.getPosition().name(),
+                        Collectors.counting()
+                ));
     }
 }
