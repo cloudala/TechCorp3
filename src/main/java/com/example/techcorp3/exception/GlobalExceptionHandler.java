@@ -17,6 +17,12 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex, HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleDepartmentNotFound(DepartmentNotFoundException ex,
+                                                                HttpServletRequest request) {
+        return buildErrorResponse(ex, HttpStatus.NOT_FOUND, request);
+    }
+
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateEmail(DuplicateEmailException ex,
                                                               HttpServletRequest request) {

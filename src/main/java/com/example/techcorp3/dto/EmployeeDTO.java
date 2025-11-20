@@ -1,13 +1,30 @@
 package com.example.techcorp3.dto;
 
 import com.example.techcorp3.model.Position;
+import jakarta.validation.constraints.*;
 
 public class EmployeeDTO {
+    @NotBlank(message = "Name cannot be empty")
+    @Size(max = 50, message = "Name cannot exceed 50 characters")
     private String name;
+
+    @NotBlank(message = "Surname is required")
+    @Size(max = 50, message = "Surname cannot exceed 50 characters")
     private String surname;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
+
+    @NotBlank(message = "Company is required")
+    @Size(max = 100, message = "Company cannot exceed 100 characters")
     private String company;
+
+    @NotNull(message = "Position is required")
     private Position position;
+
+    @NotNull(message = "Salary is required")
+    @Min(value = 0, message = "Salary must be positive")
     private double salary;
 
     public EmployeeDTO() {}

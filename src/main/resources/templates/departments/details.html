@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Department Details</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Department Details</h2>
+        <div>
+            <a th:href="@{/departments}" class="btn btn-secondary">Back to List</a>
+            <a th:href="@{'/departments/edit/' + ${department.id}}" class="btn btn-warning">Edit</a>
+            <a th:href="@{'/departments/delete/' + ${department.id}}"
+               class="btn btn-danger"
+               onclick="return confirm('Are you sure you want to delete this department?');">
+                Delete
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4 class="border-bottom pb-2">General Information</h4>
+
+            <p><strong>ID:</strong> <span th:text="${department.id}"></span></p>
+            <p><strong>Name:</strong> <span th:text="${department.name}"></span></p>
+            <p><strong>Location:</strong> <span th:text="${department.location}"></span></p>
+            <p><strong>Budget:</strong>
+                <span th:text="${#numbers.formatDecimal(department.budget, 0, 'POINT', 2, 'COMMA')}"></span> PLN
+            </p>
+
+            <p><strong>Manager:</strong>
+                <span th:text="${managerName}">Unknown Manager</span>
+                (<span th:text="${department.managerEmail}"></span>)
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Employees assigned to this department -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="border-bottom pb-2">Assigned Employees</h4>
+
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Position</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="emp : ${employees}">
+                    <td th:text="${emp.name}">John</td>
+                    <td th:text="${emp.surname}">Doe</td>
+                    <td th:text="${emp.email}">john@example.com</td>
+                    <td th:text="${emp.position}">PROGRAMISTA</td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(employees)}">
+                    <td colspan="4" class="text-center text-muted fst-italic">
+                        No employees assigned to this department.
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Add Department</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Add New Department</h2>
+        <a th:href="@{/departments}" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form th:action="@{/departments/add}" th:object="${department}" method="post">
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" th:field="*{name}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                           id="name" placeholder="Enter name">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                </div>
+
+                <!-- Location -->
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" th:field="*{location}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('location')} ? 'is-invalid' : ''"
+                           id="location" placeholder="Enter location">
+                    <div class="invalid-feedback" th:errors="*{location}"></div>
+                </div>
+
+                <!-- Budget -->
+                <div class="mb-3">
+                    <label for="budget" class="form-label">Budget</label>
+                    <input type="number" th:field="*{budget}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('budget')} ? 'is-invalid' : ''"
+                           id="budget" placeholder="Enter budget" min="0" step="0.01">
+                    <div class="invalid-feedback" th:errors="*{budget}"></div>
+                </div>
+
+                <!-- Manager -->
+                <div class="mb-3">
+                    <label for="manager" class="form-label">Manager</label>
+                    <select th:field="*{managerEmail}"
+                            class="form-select"
+                            th:classappend="${#fields.hasErrors('managerEmail')} ? 'is-invalid' : ''"
+                            id="manager">
+                        <option th:each="manager : ${managers}" th:value="${manager.email}" th:text="|${manager.name} ${manager.surname}|"></option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{managerEmail}"></div>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">Save Department</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

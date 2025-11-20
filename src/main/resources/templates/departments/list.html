@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Lista Departamentów</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Department List</h2>
+        <div>
+            <a href="/departments/add" class="btn btn-primary">Add Department</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Budget</th>
+                    <th>Manager Email</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="department : ${departments}">
+                    <td th:text="${department.id}">0</td>
+                    <td th:text="${department.name}">TechCorp</td>
+                    <td th:text="${department.location}">Warsaw</td>
+                    <td th:text="${department.budget}">0</td>
+                    <td th:text="${department.managerEmail}">john@example.com</td>
+                    <td>
+                        <a th:href="@{'/departments/edit/' + ${department.id}}" class="btn btn-sm btn-warning me-1">Edit</a>
+                        <a th:href="@{'/departments/delete/' + ${department.id}}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(departments)}">
+                    <td colspan="6" class="text-center text-muted fst-italic">
+                        No departments found.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

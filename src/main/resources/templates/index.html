@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Welcome to TechCorp</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <div class="text-center mt-5">
+        <h1 class="display-4 mb-3">Welcome to TechCorp Employee Management</h1>
+        <p class="lead mb-4">
+            Manage your employees, departments, files, and stats efficiently.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a th:href="@{/employees}" class="btn btn-primary btn-lg">View Employees</a>
+            <a th:href="@{/employees/add}" class="btn btn-success btn-lg">Add Employee</a>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <div class="card shadow-sm mx-auto" style="max-width: 800px;">
+            <div class="card-body text-center">
+                <h5 class="card-title">Quick Stats</h5>
+                <p class="card-text">
+                    See an overview of your employees, departments, and company statistics.
+                </p>
+                <a th:href="@{/statistics}" class="btn btn-outline-secondary">View Stats</a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

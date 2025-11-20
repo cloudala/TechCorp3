@@ -80,9 +80,42 @@ public class EmployeeService {
         employees.add(employee);
     }
 
+    public void updateEmployee(String oldEmail, Employee updatedEmployee) {
+        Employee existing = employees.stream()
+                .filter(emp -> emp.getEmail().equalsIgnoreCase(oldEmail))
+                .findFirst()
+                .orElseThrow(() ->
+                        new EmployeeNotFoundException("Employee with email " + oldEmail + " not found"));
+
+        // If email is changed -> check if the new one is not used
+        if (!oldEmail.equalsIgnoreCase(updatedEmployee.getEmail())) {
+            boolean emailExists = employees.stream()
+                    .anyMatch(emp -> emp.getEmail().equalsIgnoreCase(updatedEmployee.getEmail()));
+
+            if (emailExists) {
+                throw new DuplicateEmailException("Employee with email " + updatedEmployee.getEmail() + " already exists");
+            }
+        }
+
+        // Update fields
+        existing.setName(updatedEmployee.getName());
+        existing.setSurname(updatedEmployee.getSurname());
+        existing.setEmail(updatedEmployee.getEmail());
+        existing.setCompany(updatedEmployee.getCompany());
+        existing.setPosition(updatedEmployee.getPosition());
+        existing.setSalary(updatedEmployee.getSalary());
+    }
+
+
     public List<Employee> getEmployeesByCompany(String company) {
         return employees.stream()
                 .filter(employee -> employee.getCompany().equalsIgnoreCase(company))
+                .collect(Collectors.toList());
+    }
+
+    public List<Employee> getPotentialManagers() {
+        return employees.stream()
+                .filter(employee -> employee.getPosition().getHierarchyLevel() <= Position.MANAGER.getHierarchyLevel())
                 .collect(Collectors.toList());
     }
 

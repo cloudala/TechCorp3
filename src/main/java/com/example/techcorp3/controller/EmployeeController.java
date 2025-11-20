@@ -69,12 +69,15 @@ public class EmployeeController {
 
     @PutMapping("/{email}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable String email, @RequestBody EmployeeDTO employeeDTO) {
-        Employee existingEmployee = employeeService.findEmployeeByEmail(email);
-        existingEmployee.setName(employeeDTO.getName());
-        existingEmployee.setSurname(employeeDTO.getSurname());
-        existingEmployee.setCompany(employeeDTO.getCompany());
-        existingEmployee.setPosition(employeeDTO.getPosition());
-        existingEmployee.setSalary(employeeDTO.getSalary());
+        Employee updated = new Employee(
+                employeeDTO.getName(),
+                employeeDTO.getSurname(),
+                employeeDTO.getEmail(),
+                employeeDTO.getCompany(),
+                employeeDTO.getPosition(),
+                employeeDTO.getSalary()
+        );
+        employeeService.updateEmployee(email, updated);
         return ResponseEntity.ok(employeeDTO);
     }
 

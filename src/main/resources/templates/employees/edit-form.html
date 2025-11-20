@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Edit Employee</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Edit Employee</h2>
+        <a th:href="@{/employees}" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form th:action="@{/employees/edit}" th:object="${employee}" method="post">
+                <input type="hidden" name="oldEmail" th:value="${employee.email}" />
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" th:field="*{name}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                           id="name">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                </div>
+
+                <!-- Surname -->
+                <div class="mb-3">
+                    <label for="surname" class="form-label">Surname</label>
+                    <input type="text" th:field="*{surname}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('surname')} ? 'is-invalid' : ''"
+                           id="surname">
+                    <div class="invalid-feedback" th:errors="*{surname}"></div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" th:field="*{email}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                           id="email">
+                    <div class="invalid-feedback" th:errors="*{email}"></div>
+                </div>
+
+                <!-- Company -->
+                <div class="mb-3">
+                    <label for="company" class="form-label">Company</label>
+                    <input type="text" th:field="*{company}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('company')} ? 'is-invalid' : ''"
+                           id="company">
+                    <div class="invalid-feedback" th:errors="*{company}"></div>
+                </div>
+
+                <!-- Position -->
+                <div class="mb-3">
+                    <label for="position" class="form-label">Position</label>
+                    <select th:field="*{position}"
+                            class="form-select"
+                            th:classappend="${#fields.hasErrors('position')} ? 'is-invalid' : ''"
+                            id="position">
+                        <option th:each="pos : ${positions}" th:value="${pos}" th:text="${pos}"></option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{position}"></div>
+                </div>
+
+                <!-- Salary -->
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" th:field="*{salary}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('salary')} ? 'is-invalid' : ''"
+                           id="salary" min="0" step="0.01">
+                    <div class="invalid-feedback" th:errors="*{salary}"></div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">Save Employee</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
